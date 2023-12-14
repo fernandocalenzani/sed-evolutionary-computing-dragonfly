@@ -1,5 +1,15 @@
 # PESDEE-DRAGONFLY-ALGORITHM - Distribution System Planning with Dragonfly Optimization
 
+```
+name: Fernando Calenzani Muller
+email: fernandocalenzani@gmail.com
+
+This work was done 2 years ago. Sorry for the messed up code.
+Feel free to email me
+```
+
+
+
 This repository presents a unique planning methodology for distribution systems, formulated as a nonlinear optimization problem, leveraging the heuristic Dragonfly Optimization Algorithm. Inspired by the swarming behaviors of dragonflies in nature, the algorithm incorporates both exploration and exploitation phases, mimicking the social interactions of dragonflies navigating, searching for food, and avoiding threats.
 
 ## Methodology Overview
