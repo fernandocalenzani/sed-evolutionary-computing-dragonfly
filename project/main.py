@@ -23,8 +23,8 @@ from libs.swithing_elements import switching_element
 from libs.update_lines import update_line_params
 from libs.update_loads import update_load_params
 
-##########################################################################################
-# PARÂMETROS DA SIMULAÇÃO
+
+# PARAMETERS
 
 # General Parameters
 STO = parameters["STO"]
@@ -45,7 +45,7 @@ n_objective = parameters["n_objective"]
 # Circuit parameters
 dss, name_elements, element_n_phases, element_bus_name = get_elements(dss)
 
-# vars
+# LOADS AND OTHER VARS
 load_P_kw, load_Qkvar, load_S_kva, load_fp, load_U_kV, load_name, load_conn, load_model, load_bus, load_phases, line_name, line_comp, line_code, line_n_phase, cable_original, cable_withdrawn = get_circuit_params(
     dss)
 
@@ -55,7 +55,7 @@ dss.loads_first()
 dss, load_P_kw, load_Qkvar, load_name, load_conn, load_U_kV, load_model, load_bus_params, load_S_kva, load_fp, load_phases = update_load_params(
     dss, load_P_kw, load_Qkvar, load_name, load_conn, load_U_kV, load_model, load_bus_params, load_S_kva, load_fp, load_phases)
 
-# PARAMETROS DAS LINHAS
+# LINES
 dss.lines_first()
 line_name, line_comp, line_code, line_n_phase, cable_original = update_line_params(
     dss, line_name, line_comp, line_code, line_n_phase, cable_original)
@@ -63,7 +63,7 @@ line_name, line_comp, line_code, line_n_phase, cable_original = update_line_para
 
 cable_currently = cable_original
 
-# DECLARAÇÕES DAS SWITCHS
+# SWITCHS
 switch_names, switch_all_states, switch_states = dss.swtcontrols_allnames(), [], []
 
 
@@ -73,19 +73,15 @@ switch_names, switch_all_states, switch_states = dss.swtcontrols_allnames(), [],
                             DRAGONFLY ALGORITHM OPTIMIZATION
 
 ##########################################################################################"""
-# PARÂMETROS DE ENTRADA
+# INPUT PARAMETERS
 n_var = len(switch_names)
 dim = n_var
-
-# DECLARAÇÕES DAS VARIAVEIS DO DAO
 best_pos = np.zeros((h_planning+1, n_var), dtype=np.int)
 cable_used = np.zeros((dss.lines_count(), h_planning+1))
-resultado_year = []
+result_year = []
 
-# INICIO DO ALGORITMO
 for ii in range(0, h_planning+1):
-
-    # DECLARAÇÃO DAS VARIÁVEIS
+    # VARS
     x_position = np.ones((n_dragonflies, n_var), dtype=np.float64)
     delta_x = np.zeros((n_dragonflies, n_var), dtype=np.float64)
     food_pos = np.zeros((1, n_var), dtype=np.float64)
@@ -104,7 +100,6 @@ for ii in range(0, h_planning+1):
     convergence_curve = np.zeros((max_iter, n_objective), dtype=np.float64)
 
     # 1 - INICIALIZANDO A POPULAÇÃO DE LIBÉLULAS INICIAL: delta_x e x_position cujo [linhas=Libélulas, colunas=variaveis]
-
     for i in range(0, n_dragonflies):
         for j in range(2, n_var):
             if random.uniform(-1, 1) >= 0.5:
@@ -309,8 +304,8 @@ for ii in range(0, h_planning+1):
 
     # 10 - SAVING YEARLY RESULTS
     result_ranking.insert(len(result_ranking)+1, convergence_curve)
-    resultado_year.insert(ii, result_ranking)
+    result_year.insert(ii, result_ranking)
 
 
-save_annual_results(resultado_year, load_S_kva, load_fp,
+save_annual_results(result_year, load_S_kva, load_fp,
                     cable_withdrawn, save_result, path_to_save_results)
