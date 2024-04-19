@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <style>
+      header {
+         background-color: #ffffff;
+         padding: 10px;
+      }
+      body {
+         margin: 0;
+         padding: 0;
+         font-family: Arial, sans-serif;
+         background-color: #ffffff;
+      }
+      footer {
+         margin-top: 30px;
+         background-color: #444;
+         color: #fff;
+         padding: 10px;
+         text-align: center;
+      }
+
+      h2 {
+         color: #333;
+         border-bottom: 2px solid #090909;
+         padding-bottom: 5px;
+         margin-bottom: 30px;
+      }
+
+      h3 {
+         color: #444;
+         border-bottom: 1px solid #969696;
+         margin-bottom: 30px;
+      }
+
+      pre {
+         background-color: #f4f4f4;
+         padding: 10px;
+         border: 1px solid #ddd;
+         border-radius: 5px;
+         overflow-x: auto;
+      }
+
+      code {
+         font-family: "Courier New", Courier, monospace;
+      }
+
+      table {
+         width: 80%;
+         margin-left: auto;
+         margin-right: auto;
+         border-collapse: collapse;
+         margin-top: 20px;
+         margin-bottom: 40px;
+         background-color: #ffffff;
+         color: #000000;
+      }
+      td {
+         border: 1px solid #000000;
+         text-align: left;
+         padding: 8px;
+      }
+      th {
+         background-color: #2e7bfb;
+         border: 1px solid #000000;
+         text-align: left;
+         padding: 8px;
+
+      }
+
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #9a9a9a;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    .process {
+      margin: 10px;
+      padding: 10px;
+      width: 300px;
+      height: 200px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      display: inline-block;
+      text-align: center;
+    }
+    .arrow {
+      text-align: center;
+      margin: 10px;
+      font-size: 20px;
+    }
+  </style>
+</head>
+
+<body>
+   <header>
+      <div align="center">
+         <h1>Project Mimir</h1>
+      </div>
+
+   </header>
+
+   <h2 id="projeto-mimir">Projeto Mimir</h2>
+
+   <h3>Resumo do Projeto</h3>
+   <p align="left"><strong>Description:</strong> O projeto Mimir é uma solução abrangente que inclui componentes de
+      backend, frontend, consumer, producer, inteligência artificial
+      (IA), e bibliotecas de suporte. A estrutura é organizada em diferentes módulos para melhor modularidade e
+      gerenciamento.</p>
+
+   <p align="left"><strong>Version:</strong> 0.0.1</p>
+   <p align="left"><strong>Repository:</strong><a href="https://github.com/fernandocalenzani/mimir.git">github</a></p>
+   <p align="left"><strong>License:</strong><a
+         href="https://github.com/fernandocalenzani/mimir.git">License</a></p>
+   <p align="left"><strong>Project Status:</strong> <a
+         href="https://github.com/fernandocalenzani/mimir.git"><progress max="100" value="10"></progress></a></p>
+   <p align="left"><strong>Known Issues:</strong></p>
+   <ul>
+      <li>[Descrição do Bug 1]</li>
+      <li>[Descrição do Bug 2]</li>
+      <!-- Adicione mais itens conforme necessário -->
+   </ul>
+   <p align="left"><strong>Notes:</strong> [Notas de Lançamento]</p>
+
+   <h3>Summary</h3>
+   <nav>
+      <ul>
+         <li><a href="#projeto-mimir">Projeto Mimir</a></li>
+         <li><a href="#componentes-principais">Componentes Principais</a></li>
+         <li><a href="#estrutura-do-projeto">Estrutura do Projeto</a></li>
+         <li><a href="#infraestrutura-e-implantacao">Infraestrutura e Implantação</a></li>
+         <li><a href="#configuracoes">Configurações</a></li>
+         <li><a href="#escalabilidade">Escalabilidade</a></li>
+         <li><a href="#config">Config</a></li>
+         <li><a href="#overflow">Fluxograma</a></li>
+
+      </ul>
+   </nav>
+
+   <h3 id="componentes-principais">Componentes Principais</h3>
+
+   <ol>
+      <li><strong>Backend:</strong> Lida com a lógica de negócios e interage com o frontend, consumer e producer.</li>
+      <li><strong>Frontend:</strong> Interface do usuário que interage com o backend.</li>
+      <li><strong>Consumer/Producer:</strong> Responsável pela comunicação entre o hardware e o backend.
+         <ul>
+            <li><strong>Consumer:</strong> Recebe dados do RabbitMQ e realiza pré-processamento.</li>
+            <li><strong>Producer:</strong> Envia dados para o RabbitMQ.</li>
+            <li><strong>Broker:</strong> Gerencia a comunicação assíncrona entre o Consumer e o Producer.</li>
+            <li><strong>__main__.py:</strong> Ponto de entrada para o Consumer/Producer.</li>
+         </ul>
+      </li>
+      <li><strong>IA (Inteligência Artificial):</strong> Módulo dedicado ao processamento inteligente.
+         <ul>
+            <li><strong>Data:</strong> Armazena dados para treinamento e inferência.</li>
+            <li><strong>Preprocessing:</strong> Lida com a preparação de dados.</li>
+            <li><strong>Products:</strong> Modelos de IA específicos para diferentes finalidades (d_face, d_obj,
+               r_action, r_emotion, r_face, t_objects).</li>
+         </ul>
+      </li>
+      <li><strong>Libs:</strong> Bibliotecas e módulos de suporte.
+         <ul>
+            <li><strong>Helpers:</strong> Funções auxiliares reutilizáveis.</li>
+            <li><strong>Project:</strong> Módulo principal com funcionalidades compartilhadas.</li>
+         </ul>
+      </li>
+   </ol>
+
+   <h3 id="estrutura-do-projeto">Estrutura do Projeto</h3>
+
+   <pre>
+mimir/
+|-- info/
+| |-- ...
+|
+|-- project/
+| |-- backend/
+| |-- frontend/
+| |-- pipe/
+| | |-- ai/
+| | |-- consumer/
+| | |-- handler/
+| | |-- libs/
+| | |-- producer/
+| | |-- __main__.py/
+| |
+| |-- settings/
+| | |-- secrets/
+| | |-- config/
+| | |-- ...
+| |
+| |-- .gitignore
+| |-- docker-compose.yml
+| |-- Dockerfile
+| |
+| |-- test/
+|
+|-- README.md
+
+
+</pre>
+
+   <h3 id="infraestrutura-e-implantacao">Infraestrutura e Implantação</h3>
+
+   <p>A infraestrutura pode ser implementada utilizando tecnologias como RabbitMQ para a comunicação assíncrona.
+      Utilização de Docker para empacotar e distribuir as diferentes partes do projeto. Integração com serviços em
+      nuvem, como Google Cloud Platform (GCP), para escalabilidade e facilidade de gerenciamento.</p>
+
+   <h4 id="configuracoes">Configurações</h4>
+
+   <ul>
+      <li>As configurações do projeto podem ser gerenciadas através de arquivos de configuração.</li>
+      <li>Recomenda-se utilizar variáveis de ambiente para sensibilidade e configurações específicas do ambiente.</li>
+   </ul>
+
+   <h3 id="escalabilidade">Escalabilidade</h3>
+
+   <ul>
+      <li>A arquitetura permite escalabilidade horizontal conforme a demanda aumenta.</li>
+      <li>Componentes individuais podem ser escalados independentemente, proporcionando flexibilidade.</li>
+   </ul>
+
+   <h3 id="config">Configurations</h4>
+      <table>
+         <tr>
+            <th>Componente</th>
+            <th>Número de VMs</th>
+            <th>Tipo Recomendado</th>
+            <th>Recursos Recomendados</th>
+            <th>Configurações Adicionais</th>
+         </tr>
+         <tr>
+            <td>Backend</td>
+            <td>1</td>
+            <td>Firebase Functions</td>
+            <td>1 vCPU, 2 GB de RAM</td>
+            <td>Configurações específicas do servidor</td>
+         </tr>
+         <tr>
+            <td>Frontend</td>
+            <td>1</td>
+            <td>Firebase Hosting</td>
+            <td>Recursos do plano gratuito do Firebase Hosting</td>
+            <td>Configurações específicas do hosting</td>
+         </tr>
+         <tr>
+            <td>Consumer</td>
+            <td>1</td>
+            <td>Firebase Functions</td>
+            <td>1 vCPU, 2 GB de RAM</td>
+            <td>Configuração específica para RabbitMQ</td>
+         </tr>
+         <tr>
+            <td>Producer</td>
+            <td>1</td>
+            <td>Firebase Functions</td>
+            <td>1 vCPU, 2 GB de RAM</td>
+            <td>Configuração específica para RabbitMQ</td>
+         </tr>
+         <tr>
+            <td>IA (Treinamento)</td>
+            <td>1</td>
+            <td>n1-highcpu-8 no GCP</td>
+            <td>8 vCPUs, 16 GB de RAM, GPU para treinamento</td>
+            <td>Configuração específica para treinamento</td>
+         </tr>
+         <tr>
+            <td>IA (Inferência)</td>
+            <td>2</td>
+            <td>n1-highcpu-8 no GCP</td>
+            <td>8 vCPUs, 16 GB de RAM</td>
+            <td>Configuração específica para inferência</td>
+         </tr>
+   </table>
+
+   <h3 id="overflow">Fluxograma</h3>
+
+   <div class="container">
+      <div class="process">
+         <p>Camera</p>
+         <p>&darr;</p>
+         <p>Producer</p>
+         <p>&darr;</p>
+         <p>RabbitMQ</p>
+      </div>
+
+      <div class="arrow">→</div>
+
+      <div class="process">
+         <p>Consumer</p>
+         <p>&darr;</p>
+         <p>Queue</p>
+      </div>
+
+      <div class="arrow">→</div>
+
+      <div class="process">
+         <p>Queue</p>
+         <p>&darr;</p>
+         <p>Callback</p>
+         <p>&darr;</p>
+         <p>Mimir</p>
+      </div>
+
+      <div class="arrow">→</div>
+
+      <div class="process">
+         <p>Mimir</p>
+         <p>&darr;</p>
+         <p>Pre-processamento</p>
+         <p>&darr;</p>
+         <p>Deteccao</p>
+      </div>
+
+      <div class="arrow">→</div>
+
+      <div class="process">
+         <p>Server</p>
+         <p>&darr;</p>
+         <p>Cliente</p>
+      </div>
+   </div>
+
+<footer>
+   <p align="left">
+      <strong>Contact Informations:</strong>
+   </p>
+   <p align="left">email: fernandocalenzani@arisetechnology.com.br</p>
+   <p align="left">phone: +55 27 999553448</p>
+   <p align="left">Address: Vitória-ES, Brazil</p>
+</footer>
+
+</body>
+</html>

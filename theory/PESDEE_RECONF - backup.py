@@ -28,19 +28,22 @@ INICIO DO ALGORITMO DAGRONFLY ALGORITHM OPTIMIZATION (DAO)
                                                     BIBLIOTECAS
 ####################################################################################################################
 """
-import matplotlib.pyplot as plt
-import numpy as np
-import py_dss_interface  # importa o pacode para utilizar as classes no OpenDSS
-import random
-import pandas as pd
-import os
+
+
 """
 ####################################################################################################################
                                             INTERFACE OPENDSS E PYTHON
 ####################################################################################################################
 """
 
-dss = py_dss_interface.DSSDLL(r"C:\Program Files\OpenDSS")  # OpenDSS objeto com path do OpenDSS local
+# OpenDSS objeto com path do OpenDSS local
+import os
+import random
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import py_dss_interface  # importa o pacode para utilizar as classes no OpenDSS
+dss = py_dss_interface.DSSDLL(r"C:\Program Files\OpenDSS")
 dss_file = r"C:\PESDEE_123B_RECONF\A1_IEEE123Bus\Master.DSS"
 dss.text('compile [{}]'.format(dss_file))
 print('-=' * 50)
@@ -62,6 +65,7 @@ def search(lista, valor):
             break
 
     return indice
+
 
 def MarkElements(Switch, Trafo, Reguladores, Capacitores):
     if (Trafo == 'sim') or (Trafo == 'SIM') or (Trafo == 'S') or (Trafo == 'y') or (Trafo == 'Y') or (
@@ -114,6 +118,7 @@ def MarkElements(Switch, Trafo, Reguladores, Capacitores):
         dss.text("AddBusMarker bus=300 color=LtGray size=3 code=37")
         dss.text("AddBusMarker bus = 350 color = LtGray size = 3 code = 6")
 
+
 def SwitchingElement(Switch_State):
     # Switch Open(1) e Switch Close(2) OPENDSS
     # Switch Open(0) e Switch Close(1)  BDA
@@ -140,6 +145,7 @@ def SwitchingElement(Switch_State):
 
     return Switch_AllStates
 
+
 def ColetarGrandezas(Cabos_Hplanejamento, CustoExpansao, CondutoresAtuais):
     # DECLARANDO AS GRANDEZAS A SEREM COLETADAS
     # ___________________________________________________________________________________________________________________
@@ -151,12 +157,18 @@ def ColetarGrandezas(Cabos_Hplanejamento, CustoExpansao, CondutoresAtuais):
     Grand_ElementPower = []
     LineNumCond = []
     Grand_LoadPower = np.zeros((len(Load_Name), 4))
-    Grand_ChargingCurrent_phaseA = -1 + np.zeros((len(Line_Name), 1), dtype=np.float64)
-    Grand_ChargingCurrent_phaseB = -1 + np.zeros((len(Line_Name), 1), dtype=np.float64)
-    Grand_ChargingCurrent_phaseC = -1 + np.zeros((len(Line_Name), 1), dtype=np.float64)
-    Grand_New_ChargingCurrent_phaseA = -1 + np.zeros((len(Line_Name), 1), dtype=np.float64)
-    Grand_New_ChargingCurrent_phaseB = -1 + np.zeros((len(Line_Name), 1), dtype=np.float64)
-    Grand_New_ChargingCurrent_phaseC = -1 + np.zeros((len(Line_Name), 1), dtype=np.float64)
+    Grand_ChargingCurrent_phaseA = -1 + \
+        np.zeros((len(Line_Name), 1), dtype=np.float64)
+    Grand_ChargingCurrent_phaseB = -1 + \
+        np.zeros((len(Line_Name), 1), dtype=np.float64)
+    Grand_ChargingCurrent_phaseC = -1 + \
+        np.zeros((len(Line_Name), 1), dtype=np.float64)
+    Grand_New_ChargingCurrent_phaseA = -1 + \
+        np.zeros((len(Line_Name), 1), dtype=np.float64)
+    Grand_New_ChargingCurrent_phaseB = -1 + \
+        np.zeros((len(Line_Name), 1), dtype=np.float64)
+    Grand_New_ChargingCurrent_phaseC = -1 + \
+        np.zeros((len(Line_Name), 1), dtype=np.float64)
     CondutoresCandidatos = -1 + np.zeros((len(Line_Name), 1), dtype=np.float64)
     CustoAnual = np.zeros((len(Line_Name), 1), dtype=np.float64)
     # ___________________________________________________________________________________________________________________
@@ -194,16 +206,24 @@ def ColetarGrandezas(Cabos_Hplanejamento, CustoExpansao, CondutoresAtuais):
         Grand_ElementPower.insert(i, dss.cktelement_powers())
 
         if (dss.cktelement_numphases()) >= 3:
-            Grand_LoadPower[i][0] = Grand_ElementPower[i][0] + Grand_ElementPower[i][2] + Grand_ElementPower[i][4]
-            Grand_LoadPower[i][1] = Grand_ElementPower[i][1] + Grand_ElementPower[i][3] + Grand_ElementPower[i][5]
-            Grand_LoadPower[i][2] = ((Grand_LoadPower[i][0]) ** 2 + (Grand_LoadPower[i][1]) ** 2) ** (0.5)
-            Grand_LoadPower[i][3] = (Grand_LoadPower[i][0]) / (Grand_LoadPower[i][2])
+            Grand_LoadPower[i][0] = Grand_ElementPower[i][0] + \
+                Grand_ElementPower[i][2] + Grand_ElementPower[i][4]
+            Grand_LoadPower[i][1] = Grand_ElementPower[i][1] + \
+                Grand_ElementPower[i][3] + Grand_ElementPower[i][5]
+            Grand_LoadPower[i][2] = (
+                (Grand_LoadPower[i][0]) ** 2 + (Grand_LoadPower[i][1]) ** 2) ** (0.5)
+            Grand_LoadPower[i][3] = (
+                Grand_LoadPower[i][0]) / (Grand_LoadPower[i][2])
 
         elif (dss.cktelement_numphases()) < 3:
-            Grand_LoadPower[i][0] = Grand_ElementPower[i][0] + Grand_ElementPower[i][2]
-            Grand_LoadPower[i][1] = Grand_ElementPower[i][1] + Grand_ElementPower[i][3]
-            Grand_LoadPower[i][2] = ((Grand_LoadPower[i][0]) ** 2 + (Grand_LoadPower[i][1]) ** 2) ** (0.5)
-            Grand_LoadPower[i][3] = (Grand_LoadPower[i][0]) / (Grand_LoadPower[i][2])
+            Grand_LoadPower[i][0] = Grand_ElementPower[i][0] + \
+                Grand_ElementPower[i][2]
+            Grand_LoadPower[i][1] = Grand_ElementPower[i][1] + \
+                Grand_ElementPower[i][3]
+            Grand_LoadPower[i][2] = (
+                (Grand_LoadPower[i][0]) ** 2 + (Grand_LoadPower[i][1]) ** 2) ** (0.5)
+            Grand_LoadPower[i][3] = (
+                Grand_LoadPower[i][0]) / (Grand_LoadPower[i][2])
 
         dss.loads_next()
 
@@ -215,30 +235,42 @@ def ColetarGrandezas(Cabos_Hplanejamento, CustoExpansao, CondutoresAtuais):
         # linhas trifásicas cabo phase ABC=336 e Cabo Neutral= 4/0
         if Line_NumPhase[i] == 3:
             if (Grand_LinePhases[i][0] == 1) and (Grand_LinePhases[i][1] == 2) and (Grand_LinePhases[i][2] == 3):
-                Grand_ChargingCurrent_phaseA[i][0] = Grand_LineCurrent[i][0] / CondutoresCandidatos[i][0]
-                Grand_ChargingCurrent_phaseB[i][0] = Grand_LineCurrent[i][2] / CondutoresCandidatos[i][0]
-                Grand_ChargingCurrent_phaseC[i][0] = Grand_LineCurrent[i][4] / CondutoresCandidatos[i][0]
+                Grand_ChargingCurrent_phaseA[i][0] = Grand_LineCurrent[i][0] / \
+                    CondutoresCandidatos[i][0]
+                Grand_ChargingCurrent_phaseB[i][0] = Grand_LineCurrent[i][2] / \
+                    CondutoresCandidatos[i][0]
+                Grand_ChargingCurrent_phaseC[i][0] = Grand_LineCurrent[i][4] / \
+                    CondutoresCandidatos[i][0]
 
         # linhas bifásicas cabo phase ABC=336 e Cabo Neutral= 4/0
         elif Line_NumPhase[i] == 2:
             if (Grand_LinePhases[i][0] == 1) and (Grand_LinePhases[i][1] == 2):
-                Grand_ChargingCurrent_phaseA[i][0] = Grand_LineCurrent[i][0] / CondutoresCandidatos[i][0]
-                Grand_ChargingCurrent_phaseB[i][0] = Grand_LineCurrent[i][2] / CondutoresCandidatos[i][0]
+                Grand_ChargingCurrent_phaseA[i][0] = Grand_LineCurrent[i][0] / \
+                    CondutoresCandidatos[i][0]
+                Grand_ChargingCurrent_phaseB[i][0] = Grand_LineCurrent[i][2] / \
+                    CondutoresCandidatos[i][0]
             elif (Grand_LinePhases[i][0] == 1) and (Grand_LinePhases[i][1] == 3):
-                Grand_ChargingCurrent_phaseA[i][0] = Grand_LineCurrent[i][0] / CondutoresCandidatos[i][0]
-                Grand_ChargingCurrent_phaseC[i][0] = Grand_LineCurrent[i][2] / CondutoresCandidatos[i][0]
+                Grand_ChargingCurrent_phaseA[i][0] = Grand_LineCurrent[i][0] / \
+                    CondutoresCandidatos[i][0]
+                Grand_ChargingCurrent_phaseC[i][0] = Grand_LineCurrent[i][2] / \
+                    CondutoresCandidatos[i][0]
             elif (Grand_LinePhases[i][0] == 2) and (Grand_LinePhases[i][1] == 3):
-                Grand_ChargingCurrent_phaseB[i][0] = Grand_LineCurrent[i][0] / CondutoresCandidatos[i][0]
-                Grand_ChargingCurrent_phaseC[i][0] = Grand_LineCurrent[i][2] / CondutoresCandidatos[i][0]
+                Grand_ChargingCurrent_phaseB[i][0] = Grand_LineCurrent[i][0] / \
+                    CondutoresCandidatos[i][0]
+                Grand_ChargingCurrent_phaseC[i][0] = Grand_LineCurrent[i][2] / \
+                    CondutoresCandidatos[i][0]
 
         # linhas monofásicas cabo phase ABC=1/0 e Cabo Neutral= 1/0
         elif Line_NumPhase[i] == 1:
             if (Grand_LinePhases[i][0] == 1):
-                Grand_ChargingCurrent_phaseA[i][0] = Grand_LineCurrent[i][0] / CondutoresCandidatos[i][0]
+                Grand_ChargingCurrent_phaseA[i][0] = Grand_LineCurrent[i][0] / \
+                    CondutoresCandidatos[i][0]
             elif (Grand_LinePhases[i][0] == 2):
-                Grand_ChargingCurrent_phaseB[i][0] = Grand_LineCurrent[i][0] / CondutoresCandidatos[i][0]
+                Grand_ChargingCurrent_phaseB[i][0] = Grand_LineCurrent[i][0] / \
+                    CondutoresCandidatos[i][0]
             elif (Grand_LinePhases[i][0] == 3):
-                Grand_ChargingCurrent_phaseC[i][0] = Grand_LineCurrent[i][0] / CondutoresCandidatos[i][0]
+                Grand_ChargingCurrent_phaseC[i][0] = Grand_LineCurrent[i][0] / \
+                    CondutoresCandidatos[i][0]
 
     # NOVOS CARREGAMENTOS E CUSTOS
     # __________________________________________________________________________________________________________________
@@ -250,9 +282,12 @@ def ColetarGrandezas(Cabos_Hplanejamento, CustoExpansao, CondutoresAtuais):
                 if (Grand_ChargingCurrent_phaseA[i][0] > CarregAdm) or (
                         Grand_ChargingCurrent_phaseB[i][0] > CarregAdm) or (
                         Grand_ChargingCurrent_phaseC[i][0] > CarregAdm):
-                    Grand_New_ChargingCurrent_phaseA[i][0] = Grand_LineCurrent[i][0] / Cabos_Hplanejamento[i][2]
-                    Grand_New_ChargingCurrent_phaseB[i][0] = Grand_LineCurrent[i][2] / Cabos_Hplanejamento[i][2]
-                    Grand_New_ChargingCurrent_phaseC[i][0] = Grand_LineCurrent[i][4] / Cabos_Hplanejamento[i][2]
+                    Grand_New_ChargingCurrent_phaseA[i][0] = Grand_LineCurrent[i][0] / \
+                        Cabos_Hplanejamento[i][2]
+                    Grand_New_ChargingCurrent_phaseB[i][0] = Grand_LineCurrent[i][2] / \
+                        Cabos_Hplanejamento[i][2]
+                    Grand_New_ChargingCurrent_phaseC[i][0] = Grand_LineCurrent[i][4] / \
+                        Cabos_Hplanejamento[i][2]
                     CondutoresCandidatos[i][0] = Cabos_Hplanejamento[i][2]
                     CustoAnual[i][0] = PlanoCusto[i][0]
 
@@ -261,24 +296,30 @@ def ColetarGrandezas(Cabos_Hplanejamento, CustoExpansao, CondutoresAtuais):
             if (Grand_LinePhases[i][0] == 1) and (Grand_LinePhases[i][1] == 2):
                 if (Grand_ChargingCurrent_phaseA[i][0] > CarregAdm) or (
                         Grand_ChargingCurrent_phaseB[i][0] > CarregAdm):
-                    Grand_New_ChargingCurrent_phaseA[i][0] = Grand_LineCurrent[i][0] / Cabos_Hplanejamento[i][2]
-                    Grand_New_ChargingCurrent_phaseB[i][0] = Grand_LineCurrent[i][2] / Cabos_Hplanejamento[i][2]
+                    Grand_New_ChargingCurrent_phaseA[i][0] = Grand_LineCurrent[i][0] / \
+                        Cabos_Hplanejamento[i][2]
+                    Grand_New_ChargingCurrent_phaseB[i][0] = Grand_LineCurrent[i][2] / \
+                        Cabos_Hplanejamento[i][2]
                     CondutoresCandidatos[i][0] = Cabos_Hplanejamento[i][2]
                     CustoAnual[i][0] = PlanoCusto[i][0]
 
             elif (Grand_LinePhases[i][0] == 1) and (Grand_LinePhases[i][1] == 3):
                 if (Grand_ChargingCurrent_phaseA[i][0] > CarregAdm) or (
                         Grand_ChargingCurrent_phaseC[i][0] > CarregAdm):
-                    Grand_New_ChargingCurrent_phaseA[i][0] = Grand_LineCurrent[i][0] / Cabos_Hplanejamento[i][2]
-                    Grand_New_ChargingCurrent_phaseC[i][0] = Grand_LineCurrent[i][2] / Cabos_Hplanejamento[i][2]
+                    Grand_New_ChargingCurrent_phaseA[i][0] = Grand_LineCurrent[i][0] / \
+                        Cabos_Hplanejamento[i][2]
+                    Grand_New_ChargingCurrent_phaseC[i][0] = Grand_LineCurrent[i][2] / \
+                        Cabos_Hplanejamento[i][2]
                     CondutoresCandidatos[i][0] = Cabos_Hplanejamento[i][2]
                     CustoAnual[i][0] = PlanoCusto[i][0]
 
             elif (Grand_LinePhases[i][0] == 2) and (Grand_LinePhases[i][1] == 3):
                 if (Grand_ChargingCurrent_phaseB[i][0] > CarregAdm) or (
                         Grand_ChargingCurrent_phaseC[i][0] > CarregAdm):
-                    Grand_New_ChargingCurrent_phaseB[i][0] = Grand_LineCurrent[i][0] / Cabos_Hplanejamento[i][2]
-                    Grand_New_ChargingCurrent_phaseC[i][0] = Grand_LineCurrent[i][2] / Cabos_Hplanejamento[i][2]
+                    Grand_New_ChargingCurrent_phaseB[i][0] = Grand_LineCurrent[i][0] / \
+                        Cabos_Hplanejamento[i][2]
+                    Grand_New_ChargingCurrent_phaseC[i][0] = Grand_LineCurrent[i][2] / \
+                        Cabos_Hplanejamento[i][2]
                     CondutoresCandidatos[i][0] = Cabos_Hplanejamento[i][2]
                     CustoAnual[i][0] = PlanoCusto[i][0]
 
@@ -286,37 +327,39 @@ def ColetarGrandezas(Cabos_Hplanejamento, CustoExpansao, CondutoresAtuais):
         elif Line_NumPhase[i] == 1:
             if (Grand_LinePhases[i][0] == 1):
                 if (Grand_ChargingCurrent_phaseA[i][0] > CarregAdm):
-                    Grand_New_ChargingCurrent_phaseA[i][0] = Grand_LineCurrent[i][0] / Cabos_Hplanejamento[i][2]
+                    Grand_New_ChargingCurrent_phaseA[i][0] = Grand_LineCurrent[i][0] / \
+                        Cabos_Hplanejamento[i][2]
                     CondutoresCandidatos[i][0] = Cabos_Hplanejamento[i][2]
                     CustoAnual[i][0] = PlanoCusto[i][0]
 
             elif (Grand_LinePhases[i][0] == 2):
                 if (Grand_ChargingCurrent_phaseB[i][0] > CarregAdm):
-                    Grand_New_ChargingCurrent_phaseB[i][0] = Grand_LineCurrent[i][0] / Cabos_Hplanejamento[i][2]
+                    Grand_New_ChargingCurrent_phaseB[i][0] = Grand_LineCurrent[i][0] / \
+                        Cabos_Hplanejamento[i][2]
                     CondutoresCandidatos[i][0] = Cabos_Hplanejamento[i][2]
                     CustoAnual[i][0] = PlanoCusto[i][0]
 
             elif (Grand_LinePhases[i][0] == 3):
                 if (Grand_ChargingCurrent_phaseC[i][0] > CarregAdm):
-                    Grand_New_ChargingCurrent_phaseC[i][0] = Grand_LineCurrent[i][0] / Cabos_Hplanejamento[i][2]
+                    Grand_New_ChargingCurrent_phaseC[i][0] = Grand_LineCurrent[i][0] / \
+                        Cabos_Hplanejamento[i][2]
                     CondutoresCandidatos[i][0] = Cabos_Hplanejamento[i][2]
                     CustoAnual[i][0] = PlanoCusto[i][0]
 
-
-
     return Grand_Losses, \
-           Grand_CircuitPower, \
-           Grand_Voltagepu, \
-           Grand_LineCurrent, \
-           Grand_LoadPower, \
-           Grand_ChargingCurrent_phaseA, \
-           Grand_ChargingCurrent_phaseB, \
-           Grand_ChargingCurrent_phaseC, \
-           Grand_New_ChargingCurrent_phaseA, \
-           Grand_New_ChargingCurrent_phaseB, \
-           Grand_New_ChargingCurrent_phaseC, \
-           CondutoresCandidatos,\
-           CustoAnual
+        Grand_CircuitPower, \
+        Grand_Voltagepu, \
+        Grand_LineCurrent, \
+        Grand_LoadPower, \
+        Grand_ChargingCurrent_phaseA, \
+        Grand_ChargingCurrent_phaseB, \
+        Grand_ChargingCurrent_phaseC, \
+        Grand_New_ChargingCurrent_phaseA, \
+        Grand_New_ChargingCurrent_phaseB, \
+        Grand_New_ChargingCurrent_phaseC, \
+        CondutoresCandidatos, \
+        CustoAnual
+
 
 def Binarizacao(VetReal):
     VetBin = np.zeros((1, len(VetReal)))
@@ -332,6 +375,7 @@ def Binarizacao(VetReal):
 
     return VetBin
 
+
 def Float2Int(Xfloat):
     Xint = []
     Xint.clear()
@@ -343,6 +387,7 @@ def Float2Int(Xfloat):
             Xint.insert(i, 0)
 
     return Xint
+
 
 def ExpansaoCarga(t):
 
@@ -373,6 +418,7 @@ def ExpansaoCarga(t):
 
         dss.loads_next()
 
+
 def ContracaoCarga(t):
 
     Load_P_kw = np.zeros((dss.loads_count(), 1))
@@ -402,8 +448,8 @@ def ContracaoCarga(t):
 
         dss.loads_next()
 
-def PlanoExpansao(H_Planejamento,AnoPlanejado,AmpacidadeCondutores):
 
+def PlanoExpansao(H_Planejamento, AnoPlanejado, AmpacidadeCondutores):
     """______________________________________________________________________________________________________________"""
     #                                                DEFININDO PLANO DE EXPANSÃO
     """______________________________________________________________________________________________________________"""
@@ -412,7 +458,6 @@ def PlanoExpansao(H_Planejamento,AnoPlanejado,AmpacidadeCondutores):
     LineNumCond = []
     Corrente_Hplanejamento = []
     Cabos_Hplanejamento = np.zeros((dss.lines_count(), 3))
-
 
     # EXPANSÃO DA DEMANDA DE ENERGIA PARA O HORIZONTE DE PLANEJAMENTO
     ContracaoCarga(AnoPlanejado)
@@ -453,8 +498,8 @@ def PlanoExpansao(H_Planejamento,AnoPlanejado,AmpacidadeCondutores):
                                 Cabos_Hplanejamento[i][2] = Cabos_Retirados[k][0]
 
                                 CustoExpansao[i][0] = (Porc_custo_fixo) * (1.60934) * (Line_comp[i]) * \
-                                                      (CabosCustosRecond[
-                                                          CabosDados[1][:].index(AmpacidadeCondutores[i][0])] \
+                                                      (cables_costs_recond[
+                                                          CabosDados[1][:].index(AmpacidadeCondutores[i][0])]
                                                           [CabosDados[1][:].index(Cabos_Retirados[k][0])])
                                 Cabos_Retirados[k][0] = -1
                                 break
@@ -472,12 +517,12 @@ def PlanoExpansao(H_Planejamento,AnoPlanejado,AmpacidadeCondutores):
                             Cabos_Retirados[i][1] = Line_comp[i]
 
                             CustoExpansao[i][0] = (Porc_custo_fixo) * (1.60934) * (Line_comp[i]) * \
-                                                  (CabosCustosRecond[CabosDados[1][:].index(AmpacidadeCondutores[i])][
+                                                  (cables_costs_recond[CabosDados[1][:].index(AmpacidadeCondutores[i])][
                                                       j + 1]) \
-                                                  + (1 - Porc_custo_fixo) * (LineNumCond[i] / 3) * (1.60934) * (
-                                                  Line_comp[i]) \
-                                                  * (CabosCustosRecond[CabosDados[1][:].index(AmpacidadeCondutores[i])][
-                                j + 1])
+                                + (1 - Porc_custo_fixo) * (LineNumCond[i] / 3) * (1.60934) * (
+                                Line_comp[i]) \
+                                * (cables_costs_recond[CabosDados[1][:].index(AmpacidadeCondutores[i])][
+                                    j + 1])
 
                     # CONSTRUÇÃO DE NOVA LINHA + RECONDUTORAMENTO
                     # __________________________________________________________________________________________________
@@ -489,18 +534,21 @@ def PlanoExpansao(H_Planejamento,AnoPlanejado,AmpacidadeCondutores):
 
                             if (Corrente_Hplanejamento[i][0] < round(
                                     CarregAdm * (Cabos_Retirados[k][0] + CabosDados[1][6]
-                                    ), 0)) and (Line_comp[i] <= Cabos_Retirados[k][1])and(i>8):
+                                                 ), 0)) and (Line_comp[i] <= Cabos_Retirados[k][1]) and (i > 8):
 
                                 if CondutorOriginal[i][0] == CabosDados[1][4]:
                                     Cabos_Hplanejamento[i][0] = CabosDados[1][4]
                                     Cabos_Hplanejamento[i][1] = CabosDados[1][6]
-                                    Cabos_Hplanejamento[i][2] = Cabos_Retirados[k][0] + CabosDados[1][6]
-                                    CustoExpansao[i][0] = CabosCustosConstr[0][6] * 1.60934 * Line_comp[i]
+                                    Cabos_Hplanejamento[i][2] = Cabos_Retirados[k][0] + \
+                                        CabosDados[1][6]
+                                    CustoExpansao[i][0] = CabosCustosConstr[0][6] * \
+                                        1.60934 * Line_comp[i]
                                     break
                                 else:
 
                                     CustoExpansao[i][0] = CabosCustosConstr[0][6] + (Porc_custo_fixo) * (1.60934) * \
-                                                          (Line_comp[i]) * (CabosCustosRecond[3][4])
+                                        (Line_comp[i]) * \
+                                        (cables_costs_recond[3][4])
                                     Cabos_Retirados[k][0] = -1
                                     break
 
@@ -511,12 +559,13 @@ def PlanoExpansao(H_Planejamento,AnoPlanejado,AmpacidadeCondutores):
                             Cabos_Retirados[i][1] = Line_comp[i]
 
                             Cabos_Hplanejamento[i][0] = CabosDados[1][6]
-                            Cabos_Hplanejamento[i][1] = CabosDados[1][j + 1] - CabosDados[1][6]
+                            Cabos_Hplanejamento[i][1] = CabosDados[1][j +
+                                                                      1] - CabosDados[1][6]
                             Cabos_Hplanejamento[i][2] = CabosDados[1][j + 1]
 
                             CustoExpansao[i][0] = 1.60934 * (Line_comp[i]) * (CabosCustosConstr[0][j + 1]) * \
-                                                  (1 - Porc_custo_fixo) * LineNumCond[i] / 3 + 1.60934 * (Line_comp[i]) \
-                                                  * (CabosCustosConstr[0][j + 1]) * (Porc_custo_fixo)
+                                (1 - Porc_custo_fixo) * LineNumCond[i] / 3 + 1.60934 * (Line_comp[i]) \
+                                * (CabosCustosConstr[0][j + 1]) * (Porc_custo_fixo)
 
                     # 3 - CORRENTE MENOR DE 150 A_______________________________________________________________________
                     if Corrente_Hplanejamento[i][0] < CarregAdm * CabosDados[1][0]:
@@ -532,11 +581,11 @@ def PlanoExpansao(H_Planejamento,AnoPlanejado,AmpacidadeCondutores):
 
                             CustoExpansao[i][0] = (Porc_custo_fixo) * (1.60934) * (Line_comp[i]) * \
                                                   (
-                                                  CabosCustosRecond[CabosDados[1][:].index(AmpacidadeCondutores[i])][j]) \
-                                                  + (1 - Porc_custo_fixo) * (LineNumCond[i] / 3) * (1.60934) * (
-                                                  Line_comp[i]) \
-                                                  * (
-                                                  CabosCustosRecond[CabosDados[1][:].index(AmpacidadeCondutores[i])][j])
+                                cables_costs_recond[CabosDados[1][:].index(AmpacidadeCondutores[i])][j]) \
+                                + (1 - Porc_custo_fixo) * (LineNumCond[i] / 3) * (1.60934) * (
+                                Line_comp[i]) \
+                                * (
+                                cables_costs_recond[CabosDados[1][:].index(AmpacidadeCondutores[i])][j])
 
                         # 4 - CORRENTE MENOR DE 150 A SEM ALTERAÇÃO_____________________________________________________
                         else:
@@ -563,8 +612,8 @@ def PlanoExpansao(H_Planejamento,AnoPlanejado,AmpacidadeCondutores):
     ExpansaoCarga(AnoPlanejado)
     dss.solution_solve()
 
-
     return Cabos_Hplanejamento, CustoExpansao
+
 
 """
 ####################################################################################################################
@@ -576,21 +625,21 @@ def PlanoExpansao(H_Planejamento,AnoPlanejado,AmpacidadeCondutores):
 """_____________________________________________________________________________________________________________________"""
 # PARAMETROS GERAIS
 """_____________________________________________________________________________________________________________________"""
-STO              = 'sim'   # simular SISTEMA TESTE ORIGINAL
-N                = 30       # Número de libélulas (solucões) iniciais
-CarregAdm        = 0.66    # Carregamento Admissível nas linhas
+STO = 'sim'   # simular SISTEMA TESTE ORIGINAL
+N = 30       # Número de libélulas (solucões) iniciais
+CarregAdm = 0.66    # Carregamento Admissível nas linhas
 Load_VariacaoPot = 1       # % da potencia da carga que deve ser atendida
-epsilon          = 225000  # Limitação do espaço de busca da Função Objetivo 2 (F2(X)) (limite das perdas ativas em 95 kW)
-ExpCarga         = 0.07    # % em que a potencia das cargas crescem anualmente
-H_Planejamento   = 5       # Horizonte em anos do planejamento
-Porc_custo_fixo  = 0.35    # porcentagem de custo fixo da expansão
-max_iter         = 30      # Número máximo de iterações
-Xmax             = +5      # Valor máximo que a sigmoide pode assumir
-Xmin             = -5      # Valor mínimo que a sigmoide pode assumir
-peso             = +1      # % do peso dos parametros s,a,c
-pesof            = +5      # % do peso do parametro f
-salvar           = 'sim'
-
+# Limitação do espaço de busca da Função Objetivo 2 (F2(X)) (limite das perdas ativas em 95 kW)
+epsilon = 225000
+ExpCarga = 0.07    # % em que a potencia das cargas crescem anualmente
+H_Planejamento = 5       # Horizonte em anos do planejamento
+Porc_custo_fixo = 0.35    # porcentagem de custo fixo da expansão
+max_iter = 30      # Número máximo de iterações
+Xmax = +5      # Valor máximo que a sigmoide pode assumir
+Xmin = -5      # Valor mínimo que a sigmoide pode assumir
+peso = +1      # % do peso dos parametros s,a,c
+pesof = +5      # % do peso do parametro f
+salvar = 'sim'
 
 
 """_____________________________________________________________________________________________________________________"""
@@ -626,19 +675,19 @@ Line_Code = []
 Line_NumPhase = []
 CondutorOriginal = np.zeros((dss.lines_count(), 1))
 Cabos_Retirados = np.zeros((dss.lines_count(), 2))
-F1_EspacoSolucao_Ano0 = np.zeros((N,max_iter))
-F1_EspacoSolucao_Ano1 = np.zeros((N,max_iter))
-F1_EspacoSolucao_Ano2 = np.zeros((N,max_iter))
-F1_EspacoSolucao_Ano3 = np.zeros((N,max_iter))
-F1_EspacoSolucao_Ano4 = np.zeros((N,max_iter))
-F1_EspacoSolucao_Ano5 = np.zeros((N,max_iter))
+F1_EspacoSolucao_Ano0 = np.zeros((N, max_iter))
+F1_EspacoSolucao_Ano1 = np.zeros((N, max_iter))
+F1_EspacoSolucao_Ano2 = np.zeros((N, max_iter))
+F1_EspacoSolucao_Ano3 = np.zeros((N, max_iter))
+F1_EspacoSolucao_Ano4 = np.zeros((N, max_iter))
+F1_EspacoSolucao_Ano5 = np.zeros((N, max_iter))
 
-F2_EspacoSolucao_Ano0 = np.zeros((N,max_iter))
-F2_EspacoSolucao_Ano1 = np.zeros((N,max_iter))
-F2_EspacoSolucao_Ano2 = np.zeros((N,max_iter))
-F2_EspacoSolucao_Ano3 = np.zeros((N,max_iter))
-F2_EspacoSolucao_Ano4 = np.zeros((N,max_iter))
-F2_EspacoSolucao_Ano5 = np.zeros((N,max_iter))
+F2_EspacoSolucao_Ano0 = np.zeros((N, max_iter))
+F2_EspacoSolucao_Ano1 = np.zeros((N, max_iter))
+F2_EspacoSolucao_Ano2 = np.zeros((N, max_iter))
+F2_EspacoSolucao_Ano3 = np.zeros((N, max_iter))
+F2_EspacoSolucao_Ano4 = np.zeros((N, max_iter))
+F2_EspacoSolucao_Ano5 = np.zeros((N, max_iter))
 
 """_____________________________________________________________________________________________________________________"""
 # PARAMETROS DOS CABOS DO ALIMENTADOR  [AMPACIDADE A | CUSTO R$/km]
@@ -647,14 +696,15 @@ CabosDados = [['CAA1', 'CAA2', 'CAA3', 'CAA4', 'CAA5', 'CAA6', 'CAA7',
                'CAA7+CAA1', 'CAA7+CAA2', 'CAA7+CAA6', 'CAA7+CAA7',],  # CABOS[0][:]NOME       CABO
               [150.00, 250.00, 350.00, 400.00, 500.00, 600.00, 790.00, 1390, 1580]]  # CABOS[1][:]AMPACIDADE CABO
 
-CabosCustosRecond = [[0, 40200, 64700, 70000, 101400, 132900, 194900],
-                     [0, 0.000, 52500, 61200,  87400, 115400, 176400],
-                     [0, 0.000, 0.000, 50700,  75200,  92700, 157900],
-                     [0, 0.000, 0.000, 0.000,  61200,  78700, 139400],
-                     [0, 0.000, 0.000, 0.000,  0.000,  66500, 120900],
-                     [0, 0.000, 0.000, 0.000,  0.000,  0.000, 102900]]
+cables_costs_recond = [[0, 40200, 64700, 70000, 101400, 132900, 194900],
+                       [0, 0.000, 52500, 61200,  87400, 115400, 176400],
+                       [0, 0.000, 0.000, 50700,  75200,  92700, 157900],
+                       [0, 0.000, 0.000, 0.000,  61200,  78700, 139400],
+                       [0, 0.000, 0.000, 0.000,  0.000,  66500, 120900],
+                       [0, 0.000, 0.000, 0.000,  0.000,  0.000, 102900]]
 
-CabosCustosConstr = [[35000, 52500, 73500, 87400, 117200, 148700, 213400, 251100, 315800]]
+CabosCustosConstr = [[35000, 52500, 73500, 87400,
+                      117200, 148700, 213400, 251100, 315800]]
 
 """_____________________________________________________________________________________________________________________"""
 # PARAMETROS DAS CARGAS
@@ -698,20 +748,19 @@ for i in range(0, dss.lines_count()):
 
     if (Line_Code[i] == '1') or (Line_Code[i] == '2') or (Line_Code[i] == '3') or (Line_Code[i] == '4') or (
             Line_Code[i] == '5') or (Line_Code[i] == '6'):
-        CondutorOriginal[i][0]=500
+        CondutorOriginal[i][0] = 500
 
     elif (Line_Code[i] == '7') or (Line_Code[i] == '8'):
-        CondutorOriginal[i][0]=500
+        CondutorOriginal[i][0] = 500
 
     elif (Line_Code[i] == '9') or (Line_Code[i] == '10') or (Line_Code[i] == '11'):
-        CondutorOriginal[i][0]=150
+        CondutorOriginal[i][0] = 150
 
     elif (Line_Code[i] == '12'):
-        CondutorOriginal[i][0]=500
+        CondutorOriginal[i][0] = 500
 
     else:
-        CondutorOriginal[i][0]=np.inf
-
+        CondutorOriginal[i][0] = np.inf
 
     dss.lines_next()
 
@@ -743,24 +792,24 @@ MarkElements('y', 'y', 'y', 'y')
 
                                             INICIO DO ALGORITMO
                                      DRAGONFLY ALGORITHM OPTIMIZATION
-                                            
+
 ########################################################################################################################
 """
-
-
 
 
 """_____________________________________________________________________________________________________________________"""
 # PARÂMETROS DE ENTRADA DA
 """_____________________________________________________________________________________________________________________"""
-nVar  = len(Switch_Names)  # Número de Switches do Alimentados menos a chave da subestação
-dim   = nVar
+nVar = len(
+    Switch_Names)  # Número de Switches do Alimentados menos a chave da subestação
+dim = nVar
 
 """_____________________________________________________________________________________________________________________"""
 # DECLARAÇÕES DAS VARIAVEIS DO DAO
 """_____________________________________________________________________________________________________________________"""
 
-Anual_U_barras = np.zeros((H_Planejamento+1, len(dss.circuit_allbusvmagpu())), dtype=np.float64)
+Anual_U_barras = np.zeros(
+    (H_Planejamento+1, len(dss.circuit_allbusvmagpu())), dtype=np.float64)
 Anual_Potfeeder = np.zeros((H_Planejamento+1, 2), dtype=np.float64)
 Anual_PerdasTotais = np.zeros((H_Planejamento+1, 2), dtype=np.float64)
 Anual_CarregamentoA = np.zeros((dss.lines_count(), H_Planejamento+1))
@@ -772,7 +821,7 @@ Anual_Novo_CarregamentoC = np.zeros((dss.lines_count(), H_Planejamento+1))
 Best_pos = np.zeros((H_Planejamento+1, nVar), dtype=np.int)
 Anual_CustoTotal = np.zeros((H_Planejamento+1, 1), dtype=np.float64)
 Convergence_curve = np.zeros((max_iter, H_Planejamento+1), dtype=np.float64)
-CondutoresUtilizados = np.zeros((dss.lines_count(),H_Planejamento+1))
+CondutoresUtilizados = np.zeros((dss.lines_count(), H_Planejamento+1))
 
 """_____________________________________________________________________________________________________________________"""
 #                                                     INICIO DO ALGORITMO
@@ -844,16 +893,19 @@ for ii in range(0, H_Planejamento+1):
 
         if iter < (3 * max_iter / 4):
             s = peso * my_c * random.uniform(0, 1)  # coeficiente de separação
-            a = peso * my_c * random.uniform(0, 1)  # coeficiente de alinhamento
+            # coeficiente de alinhamento
+            a = peso * my_c * random.uniform(0, 1)
             c = peso * my_c * random.uniform(0, 1)  # coeficiente de coesão
-            f = pesof * random.uniform(0, 1)  # coeficiente de atração por comida
+            # coeficiente de atração por comida
+            f = pesof * random.uniform(0, 1)
             e = my_c  # coeficiente de distração do inimigo
 
         else:
             s = my_c / iter  # coeficiente de separação
             a = my_c / iter  # coeficiente de alinhamento
             c = my_c / iter  # coeficiente de coesão
-            f = pesof * random.uniform(0, 1)  # coeficiente de atração por comida
+            # coeficiente de atração por comida
+            f = pesof * random.uniform(0, 1)
             e = my_c / iter  # coeficiente de distração do inimigo
 
         """_________________________________________________________________________________________________________________"""
@@ -873,8 +925,10 @@ for ii in range(0, H_Planejamento+1):
             """RESTRIÇÕES"""
             # 1) TODAS AS CARGAS DEVEM SER ABASTECIDAS APÓS A RECONFIGURAÇÃO
             # 2) TODAS AS CARGAS DEVEM SER ABASTECIDAS COM PELO MENOS Load_VariacaoPot % DE POTENCIA
-            PlanoCondutores, PlanoCusto = PlanoExpansao(H_Planejamento,ii,CondutoresAtuais)
-            Grandezas_Coletadas = ColetarGrandezas(PlanoCondutores, PlanoCusto, CondutoresAtuais)
+            PlanoCondutores, PlanoCusto = PlanoExpansao(
+                H_Planejamento, ii, CondutoresAtuais)
+            Grandezas_Coletadas = ColetarGrandezas(
+                PlanoCondutores, PlanoCusto, CondutoresAtuais)
             Grand_LoadPower = np.copy(Grandezas_Coletadas[4][:])
 
             for j in range(0, len(Grand_LoadPower)):
@@ -891,30 +945,29 @@ for ii in range(0, H_Planejamento+1):
                 # FITNESS 2: PERDAS TÉCNICAS
                 Fitness2[i][:] = np.copy(Grandezas_Coletadas[0][:])
 
+                if ii == 0:
+                    F1_EspacoSolucao_Ano0[i][iter] = Fitness[i][0]
+                    F2_EspacoSolucao_Ano0[i][iter] = Fitness2[i][0]
 
-                if ii==0:
-                    F1_EspacoSolucao_Ano0[i][iter]=Fitness[i][0]
-                    F2_EspacoSolucao_Ano0[i][iter]=Fitness2[i][0]
+                elif ii == 1:
+                    F1_EspacoSolucao_Ano1[i][iter] = Fitness[i][0]
+                    F2_EspacoSolucao_Ano1[i][iter] = Fitness2[i][0]
 
-                elif ii==1:
-                    F1_EspacoSolucao_Ano1[i][iter]=Fitness[i][0]
-                    F2_EspacoSolucao_Ano1[i][iter]=Fitness2[i][0]
+                elif ii == 2:
+                    F1_EspacoSolucao_Ano2[i][iter] = Fitness[i][0]
+                    F2_EspacoSolucao_Ano2[i][iter] = Fitness2[i][0]
 
-                elif ii==2:
-                    F1_EspacoSolucao_Ano2[i][iter]=Fitness[i][0]
-                    F2_EspacoSolucao_Ano2[i][iter]=Fitness2[i][0]
+                elif ii == 3:
+                    F1_EspacoSolucao_Ano3[i][iter] = Fitness[i][0]
+                    F2_EspacoSolucao_Ano3[i][iter] = Fitness2[i][0]
 
-                elif ii==3:
-                    F1_EspacoSolucao_Ano3[i][iter]=Fitness[i][0]
-                    F2_EspacoSolucao_Ano3[i][iter]=Fitness2[i][0]
+                elif ii == 4:
+                    F1_EspacoSolucao_Ano4[i][iter] = Fitness[i][0]
+                    F2_EspacoSolucao_Ano4[i][iter] = Fitness2[i][0]
 
-                elif ii==4:
-                    F1_EspacoSolucao_Ano4[i][iter]=Fitness[i][0]
-                    F2_EspacoSolucao_Ano4[i][iter]=Fitness2[i][0]
-
-                elif ii==5:
-                    F1_EspacoSolucao_Ano5[i][iter]=Fitness[i][0]
-                    F2_EspacoSolucao_Ano5[i][iter]=Fitness2[i][0]
+                elif ii == 5:
+                    F1_EspacoSolucao_Ano5[i][iter] = Fitness[i][0]
+                    F2_EspacoSolucao_Ano5[i][iter] = Fitness2[i][0]
 
                 # ______________________________________________________________________________________________________
                 # 5 - AVALIAÇÃO DAS FUNÇÕES OBJETIVO
@@ -932,26 +985,36 @@ for ii in range(0, H_Planejamento+1):
                         # COLETANDO GRANDEZAS[V, I, S, Custo, Carregamentos e Novos Carregamentos]
 
                         # TENSÃO NAS BARRAS
-                        Anual_U_barras[ii][:] = np.copy(Grandezas_Coletadas[2][:])
+                        Anual_U_barras[ii][:] = np.copy(
+                            Grandezas_Coletadas[2][:])
                         # CORENTE NAS LINHAS
                         Anual_I_linhas = np.copy(Grandezas_Coletadas[3][:])
                         # POTENCIA NOS ELEMENTOS
-                        Anual_Potfeeder[ii][:] = np.copy(Grandezas_Coletadas[1][:])
+                        Anual_Potfeeder[ii][:] = np.copy(
+                            Grandezas_Coletadas[1][:])
                         # PERDAS TOTAIS
-                        Anual_PerdasTotais[ii][:] = np.copy(Grandezas_Coletadas[0][:])
+                        Anual_PerdasTotais[ii][:] = np.copy(
+                            Grandezas_Coletadas[0][:])
                         # CARREGAMENTO
                         for iii in range(0, len(Grandezas_Coletadas[5][:])):
-                            Anual_CarregamentoA[iii][ii] = np.copy(Grandezas_Coletadas[5][iii])
-                            Anual_CarregamentoB[iii][ii] = np.copy(Grandezas_Coletadas[6][iii])
-                            Anual_CarregamentoC[iii][ii] = np.copy(Grandezas_Coletadas[7][iii])
+                            Anual_CarregamentoA[iii][ii] = np.copy(
+                                Grandezas_Coletadas[5][iii])
+                            Anual_CarregamentoB[iii][ii] = np.copy(
+                                Grandezas_Coletadas[6][iii])
+                            Anual_CarregamentoC[iii][ii] = np.copy(
+                                Grandezas_Coletadas[7][iii])
                         # NOVO CARREGAMENTO
                         for iii in range(0, len(Grandezas_Coletadas[8][:])):
-                            Anual_Novo_CarregamentoA[iii][ii] = np.copy(Grandezas_Coletadas[8][iii])
-                            Anual_Novo_CarregamentoB[iii][ii] = np.copy(Grandezas_Coletadas[9][iii])
-                            Anual_Novo_CarregamentoC[iii][ii] = np.copy(Grandezas_Coletadas[10][iii])
+                            Anual_Novo_CarregamentoA[iii][ii] = np.copy(
+                                Grandezas_Coletadas[8][iii])
+                            Anual_Novo_CarregamentoB[iii][ii] = np.copy(
+                                Grandezas_Coletadas[9][iii])
+                            Anual_Novo_CarregamentoC[iii][ii] = np.copy(
+                                Grandezas_Coletadas[10][iii])
                         # CUSTO RECONDUTORAMENTO
                         for iii in range(0, len(Grandezas_Coletadas[8][:])):
-                            CondutoresCusto[iii][ii] =np.copy(Grandezas_Coletadas[12][iii])
+                            CondutoresCusto[iii][ii] = np.copy(
+                                Grandezas_Coletadas[12][iii])
 
                         # _______________________________________________________________________________________________
 
@@ -966,31 +1029,41 @@ for ii in range(0, H_Planejamento+1):
                         # _______________________________________________________________________________________________
                         # COLETANDO GRANDEZAS[V, I, S, Custo, Carregamentos e Novos Carregamentos]
                         # TENSÃO NAS BARRAS
-                        Anual_U_barras[ii][:] = np.copy(Grandezas_Coletadas[2][:])
+                        Anual_U_barras[ii][:] = np.copy(
+                            Grandezas_Coletadas[2][:])
                         # CORENTE NAS LINHAS
                         Anual_I_linhas = np.copy(Grandezas_Coletadas[3][:])
                         # POTENCIA NOS ELEMENTOS
-                        Anual_Potfeeder[ii][:] = np.copy(Grandezas_Coletadas[1][:])
+                        Anual_Potfeeder[ii][:] = np.copy(
+                            Grandezas_Coletadas[1][:])
                         # PERDAS TOTAIS
-                        Anual_PerdasTotais[ii][:] = np.copy(Grandezas_Coletadas[0][:])
+                        Anual_PerdasTotais[ii][:] = np.copy(
+                            Grandezas_Coletadas[0][:])
                         # CARREGAMENTO
                         for iii in range(0, len(Grandezas_Coletadas[5][:])):
-                            Anual_CarregamentoA[iii][ii] = np.copy(Grandezas_Coletadas[5][iii])
-                            Anual_CarregamentoB[iii][ii] = np.copy(Grandezas_Coletadas[6][iii])
-                            Anual_CarregamentoC[iii][ii] = np.copy(Grandezas_Coletadas[7][iii])
+                            Anual_CarregamentoA[iii][ii] = np.copy(
+                                Grandezas_Coletadas[5][iii])
+                            Anual_CarregamentoB[iii][ii] = np.copy(
+                                Grandezas_Coletadas[6][iii])
+                            Anual_CarregamentoC[iii][ii] = np.copy(
+                                Grandezas_Coletadas[7][iii])
                         # NOVO CARREGAMENTO
                         for iii in range(0, len(Grandezas_Coletadas[8][:])):
-                            Anual_Novo_CarregamentoA[iii][ii] = np.copy(Grandezas_Coletadas[8][iii])
-                            Anual_Novo_CarregamentoB[iii][ii] = np.copy(Grandezas_Coletadas[9][iii])
-                            Anual_Novo_CarregamentoC[iii][ii] = np.copy(Grandezas_Coletadas[10][iii])
+                            Anual_Novo_CarregamentoA[iii][ii] = np.copy(
+                                Grandezas_Coletadas[8][iii])
+                            Anual_Novo_CarregamentoB[iii][ii] = np.copy(
+                                Grandezas_Coletadas[9][iii])
+                            Anual_Novo_CarregamentoC[iii][ii] = np.copy(
+                                Grandezas_Coletadas[10][iii])
                         # CUSTO RECONDUTORAMENTO
                         for iii in range(0, len(Grandezas_Coletadas[8][:])):
-                            CondutoresCusto[iii][ii] =np.copy(Grandezas_Coletadas[12][iii])
+                            CondutoresCusto[iii][ii] = np.copy(
+                                Grandezas_Coletadas[12][iii])
 
                         # _______________________________________________________________________________________________
 
                 else:
-                    if (Fitness[i][0] == 0) and ( Fitness2[i][0] < ((1 + 2 * ii * ExpCarga) * epsilon)):
+                    if (Fitness[i][0] == 0) and (Fitness2[i][0] < ((1 + 2 * ii * ExpCarga) * epsilon)):
                         Food_fitness = np.copy(Fitness[i][0])
                         Food_pos = np.copy(X[i][:])
                         Food_Line = np.copy(Grandezas_Coletadas[11][:])
@@ -999,26 +1072,36 @@ for ii in range(0, H_Planejamento+1):
                         # _______________________________________________________________________________________________
                         # COLETANDO GRANDEZAS[V, I, S, Custo, Carregamentos e Novos Carregamentos]
                         # TENSÃO NAS BARRAS
-                        Anual_U_barras[ii][:] = np.copy(Grandezas_Coletadas[2][:])
+                        Anual_U_barras[ii][:] = np.copy(
+                            Grandezas_Coletadas[2][:])
                         # CORENTE NAS LINHAS
                         Anual_I_linhas = np.copy(Grandezas_Coletadas[3][:])
                         # POTENCIA NOS ELEMENTOS
-                        Anual_Potfeeder[ii][:] = np.copy(Grandezas_Coletadas[1][:])
+                        Anual_Potfeeder[ii][:] = np.copy(
+                            Grandezas_Coletadas[1][:])
                         # PERDAS TOTAIS
-                        Anual_PerdasTotais[ii][:] = np.copy(Grandezas_Coletadas[0][:])
+                        Anual_PerdasTotais[ii][:] = np.copy(
+                            Grandezas_Coletadas[0][:])
                         # CARREGAMENTO
                         for iii in range(0, len(Grandezas_Coletadas[5][:])):
-                            Anual_CarregamentoA[iii][ii] = np.copy(Grandezas_Coletadas[5][iii])
-                            Anual_CarregamentoB[iii][ii] = np.copy(Grandezas_Coletadas[6][iii])
-                            Anual_CarregamentoC[iii][ii] = np.copy(Grandezas_Coletadas[7][iii])
+                            Anual_CarregamentoA[iii][ii] = np.copy(
+                                Grandezas_Coletadas[5][iii])
+                            Anual_CarregamentoB[iii][ii] = np.copy(
+                                Grandezas_Coletadas[6][iii])
+                            Anual_CarregamentoC[iii][ii] = np.copy(
+                                Grandezas_Coletadas[7][iii])
                         # NOVO CARREGAMENTO
                         for iii in range(0, len(Grandezas_Coletadas[8][:])):
-                            Anual_Novo_CarregamentoA[iii][ii] = np.copy(Grandezas_Coletadas[8][iii])
-                            Anual_Novo_CarregamentoB[iii][ii] = np.copy(Grandezas_Coletadas[9][iii])
-                            Anual_Novo_CarregamentoC[iii][ii] = np.copy(Grandezas_Coletadas[10][iii])
+                            Anual_Novo_CarregamentoA[iii][ii] = np.copy(
+                                Grandezas_Coletadas[8][iii])
+                            Anual_Novo_CarregamentoB[iii][ii] = np.copy(
+                                Grandezas_Coletadas[9][iii])
+                            Anual_Novo_CarregamentoC[iii][ii] = np.copy(
+                                Grandezas_Coletadas[10][iii])
                         # CUSTO RECONDUTORAMENTO
                         for iii in range(0, len(Grandezas_Coletadas[8][:])):
-                            CondutoresCusto[iii][ii] =np.copy(Grandezas_Coletadas[12][iii])
+                            CondutoresCusto[iii][ii] = np.copy(
+                                Grandezas_Coletadas[12][iii])
 
                         # _______________________________________________________________________________________________
 
@@ -1055,10 +1138,12 @@ for ii in range(0, H_Planejamento+1):
             S = -S
 
             # ALINHAMENTO
-            A[0][:] = (np.transpose(np.sum(np.transpose(Neighbours_DeltaX)))) / neighbours_no
+            A[0][:] = (np.transpose(
+                np.sum(np.transpose(Neighbours_DeltaX)))) / neighbours_no
 
             # COESÃO
-            C_temp = (np.transpose(np.sum(np.transpose(Neighbours_X)))) / neighbours_no
+            C_temp = (np.transpose(
+                np.sum(np.transpose(Neighbours_X)))) / neighbours_no
             C[0][:] = C_temp - X[i][:]
 
             # ATRAÇÃO POR COMIDA
@@ -1088,7 +1173,7 @@ for ii in range(0, H_Planejamento+1):
                 if X[i][j] < Xmin:
                     X[i][j] = Xmin
 
-        Convergence_curve[iter][ii]= Food_fitness
+        Convergence_curve[iter][ii] = Food_fitness
 
     """_________________________________________________________________________________________________________________"""
     # 8 - ARMAZENANDO AS GRANDEZAS DA MELHOR RECONFIGURAÇÃO DO ANO i
@@ -1151,15 +1236,15 @@ for ii in range(0, H_Planejamento+1):
 
 ########################################################################################################################
 """
-if salvar=='sim':
-    Nsim = open("C:\PESDEE_123B_RECONF\Resultado\Simulacao.txt","r")
+if salvar == 'sim':
+    Nsim = open("C:\PESDEE_123B_RECONF\Resultado\Simulacao.txt", "r")
     Nsim = Nsim.read()
     newpath = r'C:\PESDEE_123B_RECONF\Resultado\SIM_{}'.format(Nsim)
     if not os.path.exists(newpath):
         os.makedirs(newpath)
 
     # EXPORTANTO DADOS POTENCIA NA CARGA
-    dados = np.concatenate((Load_S_kva,Load_fp), axis=1)
+    dados = np.concatenate((Load_S_kva, Load_fp), axis=1)
     dt = pd.DataFrame(data=dados)
     dt.to_csv(newpath+''+'\PotCarga.csv')
     dt = pd.DataFrame(data=Load_Name)
@@ -1174,7 +1259,6 @@ if salvar=='sim':
     dados = Cabos_Retirados
     dt = pd.DataFrame(data=dados)
     dt.to_csv(newpath+''+'\CondutoresRemovidos.csv')
-
 
     # EXPORTANTO DADOS  RECONFIGURAÇÕES EXECUTADAS
     dados = Best_pos
@@ -1245,11 +1329,7 @@ if salvar=='sim':
     dt = pd.DataFrame(data=dados)
     dt.to_csv(newpath+''+'\F2_EspacoSolucao_Ano5.csv')
 
-
     ContracaoCarga(H_Planejamento)
-
-
-
 
 
 Nsim = Nsim+1
@@ -1257,7 +1337,6 @@ Nsim = Nsim+1
 print('-=' * 30)
 print('Algoritmo executado com exito!')
 print('-=' * 30)
-
 
 
 """
