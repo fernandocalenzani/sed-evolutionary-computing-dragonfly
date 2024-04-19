@@ -1,0 +1,88 @@
+!_____________________________________________________________________________________________________________________________________________________
+!SUBSTATION
+!_____________________________________________________________________________________________________________________________________________________
+
+/* DESCRIÇÃO DA SUBESTAÇÃO:
+A subestação do sistema é uma linha de subtransmissão de 115kV que chega a ET e faz a distribuição a uma tensão de 4.16kV.
+
+-DADOS DA SUBESTAÇÃO-
+ ___________________________________________________________________
+|Elemento   | kVA	|    kV-high	| kV-low	|    R-%	| X-%  |
+|Substation	|5,000	|    115-D	    | 4.16Gr-W	|    1	    |  8   | 
+|___________|_______|_______________|___________|___________|______| 
+
+-DADOS DO REGULADOR-
+
+Regulator ID: 	   1
+Line Segment: 	   150-149
+Location:	       150
+Phases:	           A-B-C
+Connection:	       3-Ph, Wye
+Monitoring Phase:  A
+Bandwidth:	       2.0 volts
+PT Ratio:	       20
+Primary CT Rating: 700
+Compensator:	   Ph-A
+R - Setting:	   3
+X - Setting:	   7.5
+Voltage Level:	   120
+
+
+/*
+! EQUIVALENTE DE THEVENIN
+New Object=Circuit.IEEE123
+~ Basekv=115 
+~ Bus1=Subs 
+~ pu=1.00 
+~ Angle=0
+~ Phases=3 
+~ Mvasc3=4000 
+~ Frequency = 60
+
+! ESTAÇÃO TRANSFORMADORA
+New transformer.ET 
+~ Phases=3 
+~ Windings=2 
+~ Buses=[Subs 150] 
+~ Conns=[Delta Wye] 
+~ kvs=[115 4.16] 
+~ kvas=[5000 5000] 
+~ Xhl=8
+~ %r=0.5 
+*/
+
+!_____________________________________________________________________________________________________________________________________________________
+! INICIO SCRIPT
+
+
+New object=circuit.IEEE123
+~ basekv=4.16 
+~ Bus1=150 
+~ pu=1.00 
+~ R1=0 
+~ X1=0.0001 
+~ R0=0 
+~ X0=0.0001
+
+
+! REGULADOR DE TENSÃO
+New Transformer.reg1a 
+~ Phases=3 
+~ Windings=2 
+~ Buses=[150 150r] 
+~ Conns=[wye wye] 
+~ kvs=[4.16 4.16] 
+~ kvas=[5000 5000] 
+~ Xhl=0.001 
+~ %LoadLoss=0.00001 
+~ ppm=0.0
+
+! CONTROLADOR DE TENSÃO DA SUBESTAÇÃO
+New Regcontrol.creg1a Transformer=reg1a 
+~ Winding=2 
+~ Vreg=120 
+~ Band=2 
+~ ptratio=20 
+~ ctprim=700 
+~ R=3 
+~ X=7.5

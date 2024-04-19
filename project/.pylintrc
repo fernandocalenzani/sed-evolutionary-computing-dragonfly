@@ -1,0 +1,8 @@
+[MASTER]
+ignore = migrations
+
+[MESSAGES CONTROL]
+enable = F,E,W,C,R
+
+[FORMAT]
+max-line-length = 100

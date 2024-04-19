@@ -1,0 +1,71 @@
+!_____________________________________________________________________________________________________________________________________________________
+!SWITCHES	
+!_____________________________________________________________________________________________________________________________________________________
+
+/* DESCRIÇÃO DA SWITCHES:
+A switches do sistema são utilizadas para manobras de carga ou desligar nós da rede.
+
+-DADOS DA SWITCHES-
+________________________________________________		
+| Name	    |	Node A  |	Node B  |	Normal	|
+| Sw0		|	150		|	149		|	closed  |
+| Sw1		|	13	    |   152     |	closed  |
+| Sw2		|	18	    |   135		|	closed  |
+| Sw3		|	60	    |   160		|	closed  |
+| Sw4		|	97		|   197		|	closed  |
+| Sw5		|	61		|   61s		|	closed  |
+| Sw6		|	151		|	300		|	open    |
+| Sw7		|	54		|	94		|	open    |
+| Sw8		|	95		|	195		|	open    |
+| Sw9		|	250		|	251		|	open    |
+| Sw10		|	450		|	451		|	open    |
+| Sw11	    |	300		|	350		|	open    |
+|___________|___________|___________|___________|
+*/ 
+
+!_____________________________________________________________________________________________________________________________________________________
+! INICIO SCRIPT
+
+! CHAVES NORMALMENTE FECHADA
+New Line.Sw0    phases=3  Bus1=150r   Bus2=149  r1=1e-3 r0=1e-3 x1=0.000 x0=0.000 c1=0.000 c0=0.000 Length=0.001 
+New Line.Sw1    phases=3  Bus1=13     Bus2=152  r1=1e-3 r0=1e-3 x1=0.000 x0=0.000 c1=0.000 c0=0.000 Length=0.001 
+New Line.Sw2    phases=3  Bus1=18     Bus2=135  r1=1e-3 r0=1e-3 x1=0.000 x0=0.000 c1=0.000 c0=0.000 Length=0.001 
+New Line.Sw3    phases=3  Bus1=60     Bus2=160  r1=1e-3 r0=1e-3 x1=0.000 x0=0.000 c1=0.000 c0=0.000 Length=0.001 
+New Line.Sw4    phases=3  Bus1=97     Bus2=197  r1=1e-3 r0=1e-3 x1=0.000 x0=0.000 c1=0.000 c0=0.000 Length=0.001 
+New Line.Sw5    phases=3  Bus1=61     Bus2=61s  r1=1e-3 r0=1e-3 x1=0.000 x0=0.000 c1=0.000 c0=0.000 Length=0.001 
+
+! CHAVES NORMALMENTE ABERTA
+New Line.Sw6    phases=3  Bus1=151    Bus2=300 r1=1e-3 r0=1e-3  x1=0.000 x0=0.000 c1=0.000 c0=0.000 Length=0.001 
+New Line.Sw7    phases=1  Bus1=54     Bus2= 94 r1=1e-3 r0=1e-3  x1=0.000 x0=0.000 c1=0.000 c0=0.000 Length=0.001 
+New Line.Sw8    phases=3  Bus1=95     Bus2=195 r1=1e-3 r0=1e-3  x1=0.000 x0=0.000 c1=0.000 c0=0.000 Length=0.001 
+New Line.Sw9    phases=3  Bus1=250    Bus2=251 r1=1e-3 r0=1e-3  x1=0.000 x0=0.000 c1=0.000 c0=0.000 Length=0.001 
+New Line.Sw10   phases=3  Bus1=450    Bus2=451 r1=1e-3 r0=1e-3  x1=0.000 x0=0.000 c1=0.000 c0=0.000 Length=0.001 
+New Line.Sw11   phases=3  Bus1=300    Bus2=350 r1=1e-3 r0=1e-3  x1=0.000 x0=0.000 c1=0.000 c0=0.000 Length=0.001 
+New Line.Sw12   phases=3  Bus1=48sw   Bus2=48  r1=1e-3 r0=1e-3  x1=0.000 x0=0.000 c1=0.000 c0=0.000 Length=0.001 
+New Line.Sw13   phases=3  Bus1=66sw   Bus2=66  r1=1e-3 r0=1e-3  x1=0.000 x0=0.000 c1=0.000 c0=0.000 Length=0.001 
+New Line.Sw14   phases=3  Bus1=57sw   Bus2=57  r1=1e-3 r0=1e-3  x1=0.000 x0=0.000 c1=0.000 c0=0.000 Length=0.001 
+New Line.Sw15   phases=3  Bus1=108sw  Bus2=108 r1=1e-3 r0=1e-3  x1=0.000 x0=0.000 c1=0.000 c0=0.000 Length=0.001 
+
+
+
+! CHAVES NF
+New SwtControl.SWCTL0 SwitchedObj=Line.Sw0  SwitchedTerm=2 Action=close Lock=No Delay=0.0 Normal=close enabled=Yes
+New SwtControl.SWCTL1 SwitchedObj=Line.Sw1  SwitchedTerm=2 Action=close Lock=No Delay=0.0 Normal=close enabled=Yes
+New SwtControl.SWCTL2 SwitchedObj=Line.Sw2  SwitchedTerm=2 Action=close Lock=No Delay=0.0 Normal=close enabled=Yes
+New SwtControl.SWCTL3 SwitchedObj=Line.Sw3  SwitchedTerm=2 Action=close Lock=No Delay=0.0 Normal=close enabled=Yes
+New SwtControl.SWCTL4 SwitchedObj=Line.Sw4  SwitchedTerm=2 Action=close Lock=No Delay=0.0 Normal=close enabled=Yes
+New SwtControl.SWCTL5 SwitchedObj=Line.Sw5  SwitchedTerm=2 Action=Open Lock=No Delay=0.0 Normal=close enabled=Yes
+
+! CHAVES NA
+New SwtControl.SWCTL6  SwitchedObj=Line.Sw6   SwitchedTerm=2 Action=Open Lock=No Delay=0.0 Normal=Open enabled=Yes
+New SwtControl.SWCTL7  SwitchedObj=Line.Sw7   SwitchedTerm=2 Action=Open Lock=No Delay=0.0 Normal=Open enabled=Yes
+New SwtControl.SWCTL8  SwitchedObj=Line.Sw8   SwitchedTerm=2 Action=Open Lock=No Delay=0.0 Normal=Open enabled=Yes
+New SwtControl.SWCTL9  SwitchedObj=Line.Sw9   SwitchedTerm=2 Action=Open Lock=No Delay=0.0 Normal=Open enabled=Yes
+New SwtControl.SWCTL10 SwitchedObj=Line.Sw10  SwitchedTerm=2 Action=close Lock=No Delay=0.0 Normal=Open enabled=Yes
+New SwtControl.SWCTL11 SwitchedObj=Line.Sw11  SwitchedTerm=2 Action=close Lock=No Delay=0.0 Normal=Open enabled=Yes
+New SwtControl.SWCTL12 SwitchedObj=Line.Sw12  SwitchedTerm=2 Action=close Lock=No Delay=0.0 Normal=Open enabled=Yes
+New SwtControl.SWCTL13 SwitchedObj=Line.Sw13  SwitchedTerm=2 Action=close Lock=No Delay=0.0 Normal=Open enabled=Yes
+New SwtControl.SWCTL14 SwitchedObj=Line.Sw14  SwitchedTerm=2 Action=close Lock=No Delay=0.0 Normal=Open enabled=Yes
+New SwtControl.SWCTL15 SwitchedObj=Line.Sw15  SwitchedTerm=2 Action=close Lock=No Delay=0.0 Normal=Open enabled=Yes
+
+

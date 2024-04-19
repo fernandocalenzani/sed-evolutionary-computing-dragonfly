@@ -1,0 +1,35 @@
+!_____________________________________________________________________________________________________________________________________________________
+!CAPACITORS
+!_____________________________________________________________________________________________________________________________________________________
+
+/* DESCRIÇÃO DOS CAPACITORES:
+
+
+i) Capacitores são dispositivos de 2 terminais. O segundo terminal (Bus2 = ...) 
+   assume como padrão todas as fases conectado ao terra (Nó 0). Portanto, não 
+   é necessário especificar se um conector Y ou L-N conectado
+   capacitor é desejado
+
+________________________________
+CAPACITORES EM DERIVAÇÃO
+________________________________
+Node	Ph-A	Ph-B	Ph-C
+	    kVAr	kVAr	kVAr
+83	    200	    200		200
+88		50		-       -
+90		-		50	    -
+92		-		-		50
+Total	250		250		250
+________________________________
+
+
+*/ 
+
+!_____________________________________________________________________________________________________________________________________________________
+! INICIO SCRIPT
+
+New Capacitor.C83       Bus1=83      Phases=3     kVAR=600     kV=4.16
+New Capacitor.C88a      Bus1=88.1    Phases=1     kVAR=50      kV=2.402
+New Capacitor.C90b      Bus1=90.2    Phases=1     kVAR=50      kV=2.402
+New Capacitor.C92c      Bus1=92.3    Phases=1     kVAR=50      kV=2.402
+

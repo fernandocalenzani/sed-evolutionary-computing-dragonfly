@@ -1,0 +1,56 @@
+!_____________________________________________________________________________________________________________________________________________________
+! MASTER
+!_____________________________________________________________________________________________________________________________________________________
+
+
+/* 
+PROJETO : TRABALHO DE CONCLUSÃO DE CURSO
+
+Nome Orientador :   Dr. Clainer Bravim Donadel
+Nome Aluno :        Fernando Calenzani Muller
+e-mail aluno :      fernandocalenzani@gmail.com
+e-mail professor :  cdonadel@ifes.edu.br
+
+ 
+*/ 
+
+!___________________________________________________________
+! INICIO SCRIPT
+!___________________________________________________________
+! COMPILE
+Clear
+
+
+Redirect		Substation.DSS
+Redirect		Linecodes.DSS
+Redirect		Lines.DSS
+Redirect		Switches.DSS
+Redirect		Transformers.DSS
+Redirect		Capacitors.DSS
+Redirect 		Regulators.DSS
+Redirect 		Loads.DSS
+
+Set VoltageBases = [115, 4.16, 0.48]
+CalcVoltageBases 
+
+RegControl.creg1a.maxtapchange=1  Delay=15 
+RegControl.creg2a.maxtapchange=1  Delay=30  
+RegControl.creg3a.maxtapchange=1  Delay=30  
+RegControl.creg4a.maxtapchange=1  Delay=30  
+RegControl.creg3c.maxtapchange=1  Delay=30  
+RegControl.creg4b.maxtapchange=1  Delay=30  
+RegControl.creg4c.maxtapchange=1  Delay=30  
+
+Set MaxControlIter=100000
+
+New EnergyMeter.Feeder Line.L115 1
+
+BusCoords BusCoords.csv
+!__________________________________________________________
+
+
+Set normvminpu=1.05
+Set emergvminpu=0.95
+
+!__________________________________________________________
+

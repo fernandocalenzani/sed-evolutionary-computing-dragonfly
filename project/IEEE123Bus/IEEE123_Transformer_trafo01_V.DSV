@@ -1,0 +1,74 @@
+SetProp, 1E050,   -1E050, 1E050, -1E050, 16777215, 16777215, 0, 4
+NoScales,
+Caption, "Transformer.TRAFO01 Voltages"
+ChartCaption, "Transformer.TRAFO01 Voltages"
+Rect, 100, 10, 200, 60
+Label, 150, 15, 0, "Transformer.TRAFO01", 0
+BoldLabel, 1
+Width, 7
+DataColor, 8421504
+Move, 0, 0
+Draw, 300, 0
+DataColor, 0
+Width, 3
+FStyle, 0
+Move, 0, 50
+Draw, 100, 50
+Center,  15, 52, 10, "0.982889"
+Center,  60, 52, 10, " /_    -3.38"
+Center,  90, 52, 10, " ^"
+FStyle, 0
+Move, 0, 40
+Draw, 100, 40
+Center,  15, 42, 10, "1.02052"
+Center,  60, 42, 10, " /_  -121.90"
+Center,  90, 42, 10, " ^"
+FStyle, 0
+Move, 0, 30
+Draw, 100, 30
+Center,  15, 32, 10, "0.999896"
+Center,  60, 32, 10, " /_   117.90"
+Center,  90, 32, 10, " ^"
+Width, 1
+FStyle, 0
+Move, 0, 20
+Draw, 100, 20
+Center,  15, 22, 10, "0"
+Center,  60, 22, 10, " /_     0.00"
+Center,  90, 22, 10, " ^"
+Width, 7
+Move, -5, 5
+Draw, -5, 55
+Center,  25, 60, 10, "60.1.2.3"
+Width, 3
+FStyle, 0
+Move, 300, 50
+Draw, 200, 50
+Center,  210, 52, 10, "^ "
+Center,  240, 52, 10, "1.69389"
+Center,  280, 52, 10, " /_    -3.27"
+FStyle, 0
+Move, 300, 40
+Draw, 200, 40
+Center,  210, 42, 10, "^ "
+Center,  240, 42, 10, "1.75862"
+Center,  280, 42, 10, " /_  -121.79"
+FStyle, 0
+Move, 300, 30
+Draw, 200, 30
+Center,  210, 32, 10, "^ "
+Center,  240, 32, 10, "1.72315"
+Center,  280, 32, 10, " /_   118.00"
+Width, 1
+FStyle, 0
+Move, 300, 20
+Draw, 200, 20
+Center,  210, 22, 10, "^ "
+Center,  240, 22, 10, "0"
+Center,  280, 22, 10, " /_     0.00"
+Width, 7
+Move, 305, 5
+Draw, 305, 55
+Center,  275, 60, 10, "DG01"
+Caption, " Voltages"
+PctRim, 5
