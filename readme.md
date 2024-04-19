@@ -6,11 +6,14 @@ email: fernandocalenzani@gmail.com
 instagram: @fernandocalenzani
 wechat: fernandocalenzani
 
+FEDERAL INSTITUTE OF ESPIRITO SANTO, BRAZIL
+
 This work was done 2 years ago. Sorry for the messed up code.
 Feel free to email me
 ```
 
 OBS:
+
 1. You should go to project/config and replace the paths in general.py
 2. replace the costs to your reality, this costs are in BRL
 
